@@ -95,7 +95,7 @@ return {
 				settings = {
 					basedpyright = {
 						analysis = {
-							typeCheckingMode = "basic",
+							typeCheckingMode = "standard",
 							autoSearchPaths = true,
 							useLibraryCodeForTypes = true,
 						},
@@ -107,12 +107,17 @@ return {
 			vim.lsp.enable("lua_ls")
 			vim.lsp.enable("basedpyright")
 
+			vim.diagnostic.config({
+				virtual_text = true,
+			})
+
 			-- Keymaps
 			vim.keymap.set("n", "K", vim.lsp.buf.hover, {})
 			vim.keymap.set("n", "<leader>gd", vim.lsp.buf.definition, {})
 			vim.keymap.set("n", "<leader>gr", vim.lsp.buf.references, {})
 			vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, {})
 			vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, {})
+			vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float)
 			vim.keymap.set("n", "<leader>f", function()
 				vim.lsp.buf.format({ async = true })
 			end, {})
