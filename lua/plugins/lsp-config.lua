@@ -11,8 +11,8 @@ return {
 		dependencies = { "mason.nvim" },
 		config = function()
 			require("mason-lspconfig").setup({
-				ensure_installed = { "lua_ls", "basedpyright" },
-				automatic_installation = true, -- Auto-install LSP servers when needed
+				ensure_installed = { "lua_ls", "basedpyright", "clangd" },
+				automatic_installation = true,
 			})
 		end,
 	},
@@ -65,31 +65,22 @@ return {
 		"neovim/nvim-lspconfig",
 		dependencies = { "mason-lspconfig.nvim", "cmp-nvim-lsp" },
 		config = function()
-			-- Get enhanced capabilities from nvim-cmp
 			local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
-			-- Setup Lua LSP using vim.lsp.config
+			-- Lua LSP
 			vim.lsp.config.lua_ls = {
 				capabilities = capabilities,
 				settings = {
 					Lua = {
-						runtime = {
-							version = "LuaJIT",
-						},
-						diagnostics = {
-							globals = { "vim" },
-						},
-						workspace = {
-							library = vim.api.nvim_get_runtime_file("", true),
-						},
-						telemetry = {
-							enable = false,
-						},
+						runtime = { version = "LuaJIT" },
+						diagnostics = { globals = { "vim" } },
+						workspace = { library = vim.api.nvim_get_runtime_file("", true) },
+						telemetry = { enable = false },
 					},
 				},
 			}
 
-			-- Setup Python LSP using vim.lsp.config
+			-- Python LSP
 			vim.lsp.config.basedpyright = {
 				capabilities = capabilities,
 				settings = {
@@ -103,9 +94,16 @@ return {
 				},
 			}
 
+			-- C++ LSP (clangd)
+			vim.lsp.config.clangd = {
+				capabilities = capabilities,
+				-- You can add clangd-specific settings here if needed
+			}
+
 			-- Enable the LSP servers
 			vim.lsp.enable("lua_ls")
 			vim.lsp.enable("basedpyright")
+			vim.lsp.enable("clangd")
 
 			vim.diagnostic.config({
 				virtual_text = true,

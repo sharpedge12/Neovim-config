@@ -3,6 +3,39 @@ return {
 		"mfussenegger/nvim-dap",
 		config = function()
 			local dap = require("dap")
+			-- C++ adapter setup (cpptools)
+			dap.adapters.cppdbg = {
+				id = "cppdbg",
+				type = "executable",
+				command = vim.fn.stdpath("data") .. "/mason/packages/cpptools/extension/debugAdapters/bin/OpenDebugAD7",
+			}
+			dap.configurations.cpp = {
+
+				{
+					name = "Launch file",
+					type = "cppdbg",
+					request = "launch",
+					program = function()
+						return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
+					end,
+					cwd = "${workspaceFolder}",
+					stopAtEntry = true,
+					setupCommands = {
+						{
+							description = "Enable pretty-printing for gdb",
+							text = "-enable-pretty-printing",
+							ignoreFailures = false,
+						},
+					},
+					MIMode = "gdb",
+					miDebuggerPath = "/usr/bin/gdb", -- or your gdb path
+					console = "externalTerminal", -- <--- This is the key line!
+				},
+			}
+			-- Optionally, use the same config for C and C++
+			dap.configurations.c = dap.configurations.cpp
+
+			-- Keymaps
 			vim.keymap.set("n", "<F5>", dap.continue, { desc = "Debug: Start/Continue" })
 			vim.keymap.set("n", "<F1>", dap.step_into, { desc = "Debug: Step Into" })
 			vim.keymap.set("n", "<F2>", dap.step_over, { desc = "Debug: Step Over" })
