@@ -25,11 +25,20 @@ end
 
 vim.opt.rtp:prepend(lazypath)
 vim.opt.termguicolors = true
-
 require("vim-option")
 -- Lazy.nvim plugin setup
 require("lazy").setup({
 	spec = "plugins",
 	-- Colorscheme to use when installing plugins
-	install = { colorscheme = { "habamax" } },
+	install = { colorscheme = { "tokyonight" } },
 })
+vim.cmd([[colorscheme tokyonight
+  hi Normal guibg=NONE ctermbg=NONE
+  hi NormalNC guibg=NONE ctermbg=NONE
+  hi SignColumn guibg=NONE ctermbg=NONE
+  hi VertSplit guibg=NONE ctermbg=NONE
+  hi StatusLine guibg=NONE ctermbg=NONE
+  hi LineNr guibg=NONE ctermbg=NONE
+  hi EndOfBuffer guibg=NONE ctermbg=NONE
+  hi FloatBorder guibg=NONE ctermbg=NONE
+  hi Pmenu guibg=NONE ctermbg=NONE]])
