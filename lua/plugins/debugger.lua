@@ -53,8 +53,8 @@ return {
 				host = "127.0.0.1",
 				port = "${port}",
 				executable = {
-					command = vim.fn.stdpath("data") .. "/mason/packages/debugpy/venv/Scripts/debugpy-adapter.exe",
-					args = { "--port", "${port}" },
+					command = vim.fn.stdpath("data") .. "/mason/packages/debugpy/venv/bin/python",
+					args = { "-m", "debugpy.adapter" },
 				},
 			}
 
